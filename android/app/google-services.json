@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "140633867674",
+    "project_id": "athulya-app",
+    "storage_bucket": "athulya-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140633867674:android:50770c5f03360824cae623",
+        "android_client_info": {
+          "package_name": "com.example.athulya_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140633867674-8v6m8tb519c7sukn54ssl5jujpgcoje3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0xoP0NIzgYKe2HcHnrmYkMxi7RrX9hjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140633867674-8v6m8tb519c7sukn54ssl5jujpgcoje3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
