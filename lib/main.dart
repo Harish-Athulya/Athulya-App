@@ -1,7 +1,9 @@
+import 'package:athulya_app/pages/direct_page.dart';
+import 'package:athulya_app/pages/main_page.dart';
+import 'package:athulya_app/pages/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:athulya_app/pages/my_home_page.dart';
-
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,9 +24,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Athulya Senior Care'),
+      // home: const MyHomePage(title: 'Athulya Senior Care'),
+      // home: UserPage(),
+
+      // home: MainPage(),
+
+      home: DirectPage(),
     );
   }
 }
-
-
