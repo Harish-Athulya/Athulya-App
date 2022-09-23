@@ -1,3 +1,4 @@
+import 'package:athulya_app/pages/form_page.dart';
 import 'package:athulya_app/pages/main_page.dart';
 import 'package:athulya_app/pages/my_home_page.dart';
 import 'package:athulya_app/utils/constants.dart';
@@ -28,7 +29,7 @@ class _DirectPageState extends State<DirectPage> {
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(50), primary: secondaryColor),
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MyHomePage(title: 'title'))),
+                    builder: (context) => FormPage())),
                 child: Text(
                   'Food Update Form',
                   style: TextStyle(fontSize: 20),
