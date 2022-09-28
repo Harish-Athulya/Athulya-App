@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:athulya_app/classes/food.dart';
 import 'package:athulya_app/utils/constants.dart';
 import 'package:athulya_app/widgets/custom_appbar.dart';
 import 'package:athulya_app/widgets/custom_dropdown.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
@@ -16,16 +19,22 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final items = ['Pallavaram', 'Perungudi', 'Neelankarai', 'Arumbakkam'];
-  String? selectedItem = 'Pallavaram';
+  String selectedItem = 'Pallavaram';
   DateTime date = DateTime.now();
   TimeOfDay time = TimeOfDay(hour: 10, minute: 30);
   final foodType = ['Breakfast', 'Lunch', 'Snack', 'Dinner'];
   String? foodItem = 'Breakfast';
 
   final menuController = TextEditingController();
+  String? dTime;
+
+  String abbrBranch = '';
+  String image = '';
 
   @override
   Widget build(BuildContext context) {
+    final String abbrBranch;
+
     final hours = time.hour.toString().padLeft(2, '0');
     final minutes = time.minute.toString().padLeft(2, '0');
 
@@ -72,7 +81,7 @@ class _FormPageState extends State<FormPage> {
                           ),
                           items: items.map(buildMenuItem).toList(),
                           onChanged: (value) => setState(() {
-                                this.selectedItem = value;
+                                this.selectedItem = value as String;
                               })),
                     ),
                   ),
@@ -124,6 +133,7 @@ class _FormPageState extends State<FormPage> {
 
                       setState(() {
                         time = newTime;
+                        dTime = '${hours}:${minutes}';
                       });
                     },
                     child: Container(
@@ -185,6 +195,7 @@ class _FormPageState extends State<FormPage> {
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                         border: Border.all(color: secondaryColor, width: 2)),
                     child: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: menuController,
                       maxLines: 3,
 
@@ -216,18 +227,31 @@ class _FormPageState extends State<FormPage> {
                   ),
                   if (pickedFile != null)
                     Container(
-                      child: Center(
-/*                         child: Text(
-                          pickedFile!.name,
-                          style: TextStyle(color: Colors.red),
-                        ),
- */
-                        child: Container(
-                          // width: 500,
-                          height: 500,
-                          child: Image.file(File(pickedFile!.path!),
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          border: Border.all(color: secondaryColor, width: 2)),
+                      // width: 500,
+                      // height: 500,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Image Preview',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: secondaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(pickedFile!.name),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Image.file(File(pickedFile!.path!),
                               width: double.infinity, fit: BoxFit.contain),
-                        ),
+                        ],
                       ),
                     ),
 /* 
@@ -244,14 +268,43 @@ class _FormPageState extends State<FormPage> {
             Container(
                 padding: EdgeInsets.all(20),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: Size.fromHeight(50), primary: Colors.teal),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: submit,
-                ))
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size.fromHeight(50), primary: Colors.teal),
+                    child: Text(
+                      'Submit',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: (() {
+                      final String branchName = selectedItem;
+                      final String foodDate = date.toString().substring(0, 10);
+                      final String foodTime = time
+                          .toString()
+                          .replaceAll('TimeOfDay(', '')
+                          .replaceAll(')', '');
+                      final String foodType = foodItem!;
+                      final int lastIndex =
+                          (pickedFile!.path!).lastIndexOf('/') + 1;
+                      final String apath = (pickedFile!.path!);
+                      final String rpath = apath.substring(lastIndex);
+
+                      final food = Food(
+                          branch: branchName,
+                          date: foodDate,
+                          time: foodTime,
+                          foodType: foodType,
+                          menu: menuController.text,
+                          imageName: rpath);
+
+                      submit(food);
+
+                      // print(lastIndex);
+                      // print(apath);
+                      // print(rpath);
+
+                      // final food = Food(branch: )
+
+                      // submit(),
+                    })))
           ],
         ),
       ),
@@ -273,14 +326,58 @@ class _FormPageState extends State<FormPage> {
     });
   }
 
-  Future submit() async {
-    print(selectedItem);
+  Future submit(Food food) async {
+    switch (selectedItem) {
+      case 'Arumbakkam':
+        abbrBranch = 'ARM';
+        break;
+      case 'Neelankarai':
+        abbrBranch = 'NLK';
+        break;
+      case 'Pallavaram':
+        abbrBranch = 'PVM';
+        break;
+      case 'Perungudi':
+        abbrBranch = 'PRG';
+        break;
+    }
+
+    switch (food.foodType) {
+      case 'Breakfast':
+        image = 'Img1';
+        break;
+      case 'Lunch':
+        image = 'Img2';
+        break;
+      case 'Snack':
+        image = 'Img3';
+        break;
+      case 'Dinner':
+        image = 'Img4';
+        break;
+    }
+    food.id = '${abbrBranch}-${food.date}-${image}';
+    final docUser =
+        FirebaseFirestore.instance.collection(food.branch!).doc(food.id);
+    final json = food.toJson();
+    await docUser.set(json);
+
+    // print(abbrBranch);
+    // print(food.date);
+    // print(image);
+
+    // print(food.id);
+
+/*     print(selectedItem);
+    print(date.toString().substring(0, 10));
+    print(time.toString().replaceAll('TimeOfDay(', '').replaceAll(')', ''));
     print(foodItem);
     print(menuController.text);
 
-    // final snackBar = SnackBar(content: Text(selectedItem!));
+ */ // final snackBar = SnackBar(content: Text(selectedItem!));
     // ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
+/* 
     final path = '${selectedItem}/${pickedFile!.name}';
     final file = File(pickedFile!.path!);
 
@@ -288,11 +385,14 @@ class _FormPageState extends State<FormPage> {
       final ref = FirebaseStorage.instance.ref().child(path);
       ref.putFile(file);
 
-      final snackBar = SnackBar(content: Text('Image uploaded'));
+      final snackBar = SnackBar(content: Text('Content Uploaded'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      Navigator.pop(context);
     } on FirebaseException catch (e) {
       print(e);
     }
+*/
   }
 
   DropdownMenuItem<String> buildMenuItem(String item) {

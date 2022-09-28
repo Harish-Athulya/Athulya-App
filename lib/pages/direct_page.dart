@@ -1,6 +1,7 @@
 import 'package:athulya_app/pages/form_page.dart';
 import 'package:athulya_app/pages/main_page.dart';
 import 'package:athulya_app/pages/my_home_page.dart';
+import 'package:athulya_app/pages/view_form_page.dart';
 import 'package:athulya_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -28,8 +29,8 @@ class _DirectPageState extends State<DirectPage> {
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(50), primary: secondaryColor),
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => FormPage())),
+                onPressed: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => FormPage())),
                 child: Text(
                   'Food Update Form',
                   style: TextStyle(fontSize: 20),
@@ -42,7 +43,7 @@ class _DirectPageState extends State<DirectPage> {
                     minimumSize: Size.fromHeight(50), primary: secondaryColor),
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MainPage()));
+                      MaterialPageRoute(builder: (context) => ViewFormPage()));
                 },
                 child: Text(
                   'View Updates',
