@@ -35,6 +35,7 @@ class _ImagePageState extends State<ImagePage> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               widget.file.name,

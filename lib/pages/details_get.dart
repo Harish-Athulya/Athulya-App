@@ -57,7 +57,19 @@ class _DetailsGetState extends State<DetailsGet> {
               // late Future<List<FirebaseFile>> futureFiles;
               late Future<FirebaseFile> futureFiles;
               if (data.toString() == 'null') {
-                return Text('No records found');
+                return Center(
+                    child: Container(
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.white)),
+                  child: Text(
+                    // 'No records found, \nfor the given filter data',
+                    'Food data not updated for \n${widget.food} on ${widget.date} at \n${widget.branch}',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: secondaryColor),
+                  ),
+                ));
               }
               /* Map<String, dynamic> data =
                   snapshot.data?.data() as Map<String, dynamic> ??
@@ -97,6 +109,8 @@ class _DetailsGetState extends State<DetailsGet> {
                       final files = snapshot.data;
 
                       return Column(
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
 /*                           ListView.builder(
                               itemCount: files!.length,
@@ -105,6 +119,10 @@ class _DetailsGetState extends State<DetailsGet> {
                                 return buildFile(context, file);
                               })),
 */
+
+                          SizedBox(
+                            height: 50,
+                          ),
                           ListTile(
                             leading: ClipOval(
                               child: Image.network(
@@ -115,17 +133,42 @@ class _DetailsGetState extends State<DetailsGet> {
                               ),
                             ),
                             title: Text(
-                              files.name,
+                              '${records['foodType']} - ${records['menu']}',
                               style: TextStyle(
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: secondaryColor),
                             ),
+                            // tileColor: secondaryColor,
+                            subtitle: Text(
+                              '${records['branch']} on ${records['date']} at ${records['time']}',
+                              style: TextStyle(color: secondaryColor),
+                            ),
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      ImagePage(file: files)));
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: (context) =>
+                              //         ImagePage(file: files)));
                             },
                           ),
+
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: secondaryColor, width: 3)),
+                                // padding: EdgeInsets.fromLTRB(12, 50, 12, 12),
+                                padding: EdgeInsets.all(40),
+                                // color: primaryColor,
+                                height: 400,
+                                width: double.infinity,
+                                child: Image.network(files.url,
+                                    fit: BoxFit.contain)),
+                          ),
+
                           // Text('Athulya ${files.name}'),
                           // Text('Athulya ${files?.ref}'),
                           // Text('Athulya ${files?.url}')

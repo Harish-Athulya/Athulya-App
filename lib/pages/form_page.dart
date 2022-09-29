@@ -377,7 +377,6 @@ class _FormPageState extends State<FormPage> {
  */ // final snackBar = SnackBar(content: Text(selectedItem!));
     // ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-/* 
     final path = '${selectedItem}/${pickedFile!.name}';
     final file = File(pickedFile!.path!);
 
@@ -392,7 +391,6 @@ class _FormPageState extends State<FormPage> {
     } on FirebaseException catch (e) {
       print(e);
     }
-*/
   }
 
   DropdownMenuItem<String> buildMenuItem(String item) {
