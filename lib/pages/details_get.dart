@@ -124,7 +124,7 @@ class _DetailsGetState extends State<DetailsGet> {
                             height: 50,
                           ),
                           ListTile(
-                            leading: ClipOval(
+                            leading: ClipRect(
                               child: Image.network(
                                 files!.url,
                                 width: 52,
@@ -175,7 +175,7 @@ class _DetailsGetState extends State<DetailsGet> {
                         ],
                       );
                     } else if (snapshot.hasError) {
-                      return Text('Something went wrong');
+                      return Text('Something went wrong ${snapshot.error}');
                     } else {
                       return CircularProgressIndicator();
                     }

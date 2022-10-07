@@ -1,3 +1,4 @@
+import 'package:athulya_app/pages/direct_modules.dart';
 import 'package:athulya_app/pages/direct_page.dart';
 import 'package:athulya_app/pages/main_page.dart';
 import 'package:athulya_app/pages/user_page.dart';
@@ -29,7 +30,9 @@ class MyApp extends StatelessWidget {
 
       // home: MainPage(),
 
-      home: DirectPage(),
+      // home: DirectPage(),
+
+      home: DirectModules(),
     );
   }
 }
