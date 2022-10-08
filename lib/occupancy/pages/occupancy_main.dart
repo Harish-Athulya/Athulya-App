@@ -1,4 +1,5 @@
-import 'package:athulya_app/occupancy/pages/main_update.dart';
+import 'package:athulya_app/occupancy/pages/occupancy_tracker.dart';
+import 'package:athulya_app/occupancy/pages/occupancy_update.dart';
 import 'package:athulya_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -16,6 +17,7 @@ class _OccupancyMainState extends State<OccupancyMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: primaryColor,
         title: Text('Athulya Senior Care'),
       ),
@@ -29,10 +31,10 @@ class _OccupancyMainState extends State<OccupancyMain> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => MainUpdate()));
+                    MaterialPageRoute(builder: (context) => OccupancyUpdate()));
               },
               child: Text(
-                'Main update',
+                'Occupancy Data Update',
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -41,9 +43,12 @@ class _OccupancyMainState extends State<OccupancyMain> {
                   primary: secondaryColor, minimumSize: Size.fromHeight(50)),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => OccupancyTracker()));
+              },
               child: Text(
-                'Daily update',
+                'Occupancy Tracker',
                 style: TextStyle(
                   fontSize: 20,
                 ),
