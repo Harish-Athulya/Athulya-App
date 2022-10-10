@@ -1,7 +1,11 @@
+import 'package:athulya_app/occupancy/pages/tracker_view.dart';
+import 'package:athulya_app/occupancy/pages/tracker_viewer.dart';
+import 'package:athulya_app/occupancy/pages/view_tracker.dart';
 import 'package:athulya_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:athulya_app/classes/room.dart';
 
 class OccupancyTracker extends StatefulWidget {
   const OccupancyTracker({Key? key}) : super(key: key);
@@ -11,7 +15,13 @@ class OccupancyTracker extends StatefulWidget {
 }
 
 class _OccupancyTrackerState extends State<OccupancyTracker> {
-  final branch = ['Pallavaram', 'Perungudi', 'Neelankarai', 'Arumbakkam'];
+  final branch = [
+    'Pallavaram',
+    'Perungudi',
+    'Neelankarai',
+    'Arumbakkam',
+    'Kasavanahalli'
+  ];
   String selectedBranch = 'Pallavaram';
   DateTime date = DateTime.now();
 
@@ -21,7 +31,7 @@ class _OccupancyTrackerState extends State<OccupancyTracker> {
   @override
   void initState() {
     // TODO: implement initState
-    counter = 0;
+    // counter = 0;
   }
 
   @override
@@ -120,13 +130,22 @@ class _OccupancyTrackerState extends State<OccupancyTracker> {
                   style: ElevatedButton.styleFrom(
                       primary: Colors.teal, minimumSize: Size.fromHeight(50)),
                   onPressed: () {
-                    setState(() {
+/*                     setState(() {
                       count = count + 1;
-                      counter = counter + 1;
+                      // counter = counter + 1;
                       print(count);
                       print(counter);
                     });
                     // count++;
+ */
+                    final String fdate = '${sdate}-${smonth}-${syear}';
+                    final docId = Room.docId(selectedBranch, fdate);
+
+                    // print(docId);
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ViewTracker(branch: selectedBranch, date: fdate)));
                   },
                   child: Text(
                     'Fetch Data',

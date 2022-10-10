@@ -13,7 +13,13 @@ class OccupancyUpdate extends StatefulWidget {
 }
 
 class _OccupancyUpdateState extends State<OccupancyUpdate> {
-  final branch = ['Pallavaram', 'Perungudi', 'Neelankarai', 'Arumbakkam'];
+  final branch = [
+    'Pallavaram',
+    'Perungudi',
+    'Neelankarai',
+    'Arumbakkam',
+    'Kasavanahalli'
+  ];
   String selectedBranch = 'Pallavaram';
 
   final TextEditingController countController = TextEditingController();
